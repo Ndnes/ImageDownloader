@@ -1,2 +1,2 @@
 # ImageDownloader
-Downloads images from URLs and saves the using multi threading
+Downloads images from URLs and saves them using multi threading
