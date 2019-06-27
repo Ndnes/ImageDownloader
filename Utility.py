@@ -1,3 +1,4 @@
+"""This module does various utility functions such as printing progress bar."""
 
 
 def printProgress(progress,
@@ -5,11 +6,10 @@ def printProgress(progress,
                   postText='% complete',
                   width=25,
                   showNumber=True):
-    """Prints progress to the terminal.
-# noqa W293
+    """Print progress to the terminal.
+
     Arguments:
         progress {float} -- The amount of progress from 0.0 to 1.0.
-    
     Keyword Arguments:
         preText {str} -- Text appearing before the progress bar
                          (default: {'Progress: '})
@@ -27,4 +27,4 @@ def printProgress(progress,
             f'{preText}{bars}{whitSpaces} {progress * 100}{postText}\r'
     else:
         progressString = f'{preText}{bars}{whitSpaces}{postText}\r'
-    print(progressString)
+    print(progressString, end='')
