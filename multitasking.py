@@ -2,6 +2,7 @@
 
 import requests
 import threading
+import os
 
 import globals
 
@@ -80,3 +81,34 @@ def divideWorkload(workItems, numberOfCpu):
     for i in range(workItems % numberOfCpu):
         workTasks[i] += 1
     return workTasks
+
+
+def assignWorkTasks(workTasks, links, directory):
+    """Assign work tasks by instantianting WorkTask class.
+
+    Arguments:
+        workTasks {List} -- List int with the number of tasks per thread
+        links {List} -- List of string with objects to be treated
+        directory {string} -- The path where workobjects will be saved
+    Returns:
+        List -- List of WorkTask instances
+    """
+    output = []
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+        count = 1
+    else:
+        count = len(os.listdir(directory))
+
+    i = 0
+    initialCount = count
+    for items in workTasks:
+        if items != 0:
+            workList = links[count-initialCount:count-initialCount+items]
+            w = WorkTask(i)
+            w.startCount = count
+            w.workList = workList
+            output.append(w)
+            count += items
+        i += 1
+    return output
