@@ -26,10 +26,13 @@ def findNumberOfValidLinks(
     """Find number of valid links and save to global variables.
 
     Arguments:
-        imageLinks {[string]} -- [description]
-        numberOfValidLinks_t {[type]} -- [description]
-        validLinks_t {[type]} -- [description]
-        unvalidLinks_t {[type]} -- [description]
+        imageLinks {List} -- List of strings containing URLs
+        numberOfValidLinks_t {List} -- Immutable object used for getting
+        results of multithreading tasks.
+        validLinks_t {List} -- Immutable object used for getting results of
+        multithreading tasks.
+        unvalidLinks_t {[type]} -- Immutable object used for getting results of
+        multithreading tasks.
         index {[type]} -- [description]
     """
     numberOfLinks = len(imageLinks)
