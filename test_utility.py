@@ -16,15 +16,18 @@ class TestUtility(unittest.TestCase):
 
     def test_visualTests(self):
         """Tests printProgress() visually. (Verify in terminal)."""
-        for i in range(11):
+        iterations = 11
+        f"\n\nTesting {iterations} iterations.\n"
+        for i in range(iterations):
             utility.printProgress(i/10)
             print('')
         print('\n')
-        for i in range(11):
+        print(f'\n\nTesting {iterations} iterations with varying length.\n')
+        for i in range(iterations):
             utility.printProgress(i/10, width=(i * 4))
             print('')
-        print('\n\n Now testing single line progress\n')
-        for i in range(11):
+        print('\n\nTesting single line progress\n')
+        for i in range(iterations):
             utility.printProgress(
                 i/10, width=60, preText='TestPretext',
                 postText='TestPosttext', showNumber=False)
