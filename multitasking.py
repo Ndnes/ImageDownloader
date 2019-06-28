@@ -105,7 +105,8 @@ def assignWorkTasks(workTasks, links, directory):
     for items in workTasks:
         if items != 0:
             workList = links[count-initialCount:count-initialCount+items]
-            w = WorkTask(i)
+            w = WorkTask()
+            w.cpuNumber = i
             w.startCount = count
             w.workList = workList
             output.append(w)
