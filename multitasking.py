@@ -63,3 +63,20 @@ def findNumberOfValidLinks(
     numberOfValidLinks_t[index] = _numberOfValidLinks
     validLinks_t[index] = _validLinks
     unvalidLinks_t[index] = _unvalidLinks
+
+
+def divideWorkload(workItems, numberOfCpu):
+    """Divide work into smaller tasks for multithreading.
+
+    Arguments:
+        workItems {List} -- List of items to be treated
+        numberOfCpu {int} -- The number of logical cores available for
+        multithreading
+    Returns:
+            [type] -- [description]
+    """
+    tasksPerCpu = int(workItems / numberOfCpu)
+    workTasks = [tasksPerCpu] * numberOfCpu
+    for i in range(workItems % numberOfCpu):
+        workTasks[i] += 1
+    return workTasks
