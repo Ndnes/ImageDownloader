@@ -1,9 +1,16 @@
 """Module for all activity implementing multitasking."""
 
-import requests
-import threading
+# Built in modules
 import os
+import pathlib
+import threading
 
+# Installed modules
+import cv2
+import numpy as np
+import requests
+
+# User defined modules
 import globals
 
 
@@ -45,7 +52,7 @@ def findNumberOfValidLinks(
     _unvalidLinks = []
     for link in imageLinks:
         try:
-            r = requests.head(link, timeout=0.2)
+            r = requests.head(link, timeout=0.5)
             if(r.ok):
                 _numberOfValidLinks += 1
                 _validLinks.append(link)
@@ -113,3 +120,50 @@ def assignWorkTasks(workTasks, links, directory):
             count += items
         i += 1
     return output
+
+
+def saveImages(directory, links, startCount, size=None, grayScale=False):
+    """Save images and report progress to global variable.
+
+    Arguments:
+        directory {string} -- The directory where images will be saved
+        links {List} -- List of string containing URL links for images.
+        startCount {int} -- The startnumber used so that threads will not over-
+        write each others files
+    Keyword Arguments:
+        size {List} -- [width, height] of image default: {None})
+        grayScale {bool} -- Pass in true for grayscale image (default: {False})
+    """
+    if not os.path.exists(directory):
+        os.mkdir(directory)
+        cnt = 1
+    else:
+        cnt = startCount
+    failCnt = 0
+    progressCount = 0
+    numberOfLinks = len(links)
+    for link in links:
+        imgPath = pathlib.Path(f'{directory}/{cnt}.png')
+        try:
+            r = requests.get(link, timeout=0.5)
+        except Exception as e:
+            failCnt += 1
+            print(e)
+        else:
+            imgStr = r.content
+            imgArr = np.fromstring(imgStr, np.uint8)
+            if grayScale:
+                img = cv2.imdecode(imgArr, cv2.IMREAD_GRAYSCALE)
+            else:
+                img = cv2.imdecode(imgArr, cv2.IMREAD_COLOR)
+            if size:
+                img = cv2.resize(img, (size[0], size[1]))
+            cv2.imwrite(imgPath, img)
+            cnt += 1
+        progressCount += 1
+        trdName = threading.current_thread().name
+        trdNum = int(trdName[-3:])  # Gets last 3 characters from threadname
+        if numberOfLinks == 0:
+            globals.g_progress[trdNum] = 1
+        else:
+            globals.g_progress[trdNum] = progressCount / numberOfLinks
