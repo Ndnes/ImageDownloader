@@ -62,11 +62,12 @@ def findNumberOfValidLinks(
             print(e)
         cnt += 1
         trdName = threading.current_thread().name
-        trdNum = int(trdName[-3:])
-        if numberOfLinks == 0:
-            globals.g_progress[trdNum] = 1.0
-        else:
-            globals.g_progress[trdNum] = cnt/numberOfLinks
+        if trdName != 'MainThread':  # Needed to run function without mthread
+            trdNum = int(trdName[-3:])
+            if numberOfLinks == 0:
+                globals.g_progress[trdNum] = 1.0
+            else:
+                globals.g_progress[trdNum] = cnt/numberOfLinks
     numberOfValidLinks_t[trdIndex] = _numberOfValidLinks
     validLinks_t[trdIndex] = _validLinks
     unvalidLinks_t[trdIndex] = _unvalidLinks
@@ -151,11 +152,11 @@ def saveImages(directory, links, startCount, size=None, grayScale=False):
         else:
             imgStr = r.content
             imgArr = np.fromstring(imgStr, np.uint8)
-            if grayScale:
+            if grayScale:  # TODO: Refactor move grayscale to separate func
                 img = cv2.imdecode(imgArr, cv2.IMREAD_GRAYSCALE)
             else:
                 img = cv2.imdecode(imgArr, cv2.IMREAD_COLOR)
-            if size:
+            if size:  # TODO: Refactor move resizing to separate func
                 img = cv2.resize(img, (size[0], size[1]))
             cv2.imwrite(imgPath, img)
             cnt += 1
