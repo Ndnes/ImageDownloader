@@ -30,18 +30,18 @@ def findNumberOfValidLinks(
                         numberOfValidLinks_t,
                         validLinks_t,
                         unvalidLinks_t,
-                        index):
+                        trdIndex):
     """Find number of valid links and save to global variables.
 
     Arguments:
         imageLinks {List} -- List of strings containing URLs
         numberOfValidLinks_t {List} -- Mutable object used for getting
         results of multithreading tasks.
-        validLinks_t {List} -- Immutable object used for getting results of
+        validLinks_t {List} -- Mutable object used for getting results of
         multithreading tasks.
-        unvalidLinks_t {[type]} -- Immutable object used for getting results of
+        unvalidLinks_t {List} -- Mutable object used for getting results of
         multithreading tasks.
-        index {[type]} -- [description]
+        trdIndex {int} -- Index describing which thread is executing
     """
     numberOfLinks = len(imageLinks)
     cnt = 0
@@ -68,9 +68,9 @@ def findNumberOfValidLinks(
             globals.g_progress[trdNum] = 1.0
         else:
             globals.g_progress[trdNum] = cnt/numberOfLinks
-    numberOfValidLinks_t[index] = _numberOfValidLinks
-    validLinks_t[index] = _validLinks
-    unvalidLinks_t[index] = _unvalidLinks
+    numberOfValidLinks_t[trdIndex] = _numberOfValidLinks
+    validLinks_t[trdIndex] = _validLinks
+    unvalidLinks_t[trdIndex] = _unvalidLinks
 
 
 def divideWorkload(workItems, numberOfCpu):
