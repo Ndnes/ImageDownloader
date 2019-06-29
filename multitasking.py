@@ -35,7 +35,7 @@ def findNumberOfValidLinks(
 
     Arguments:
         imageLinks {List} -- List of strings containing URLs
-        numberOfValidLinks_t {List} -- Immutable object used for getting
+        numberOfValidLinks_t {List} -- Mutable object used for getting
         results of multithreading tasks.
         validLinks_t {List} -- Immutable object used for getting results of
         multithreading tasks.
