@@ -45,7 +45,6 @@ def findNumberOfValidLinks(
     """
     numberOfLinks = len(imageLinks)
     cnt = 0
-    globals.g_progress
 
     _numberOfValidLinks = 0
     _validLinks = []
