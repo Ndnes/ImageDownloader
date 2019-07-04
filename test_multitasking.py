@@ -28,11 +28,11 @@ class TestMultitasking(unittest.TestCase):
 
     def tearDown(self):
         pass
-    
+
     def test_findNumberOfValidLinks(self):
         #  TODO: Refactor Do setup in a setUp method.
-        urlLink = \  
-            'http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n01729977'
+        urlLink = \
+        'http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n01729977'# noqa
 
         r = requests.get(urlLink, timeout=1)
         urlString = r.content.decode()

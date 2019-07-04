@@ -11,7 +11,7 @@ import numpy as np
 import requests
 
 # User defined modules
-import globals
+import config
 
 
 class WorkTask:
@@ -65,9 +65,9 @@ def findNumberOfValidLinks(
         if trdName != 'MainThread':  # Needed to run function without mthread
             trdNum = int(trdName[-3:])
             if numberOfLinks == 0:
-                globals.g_progress[trdNum] = 1.0
+                config.g_progress[trdNum] = 1.0
             else:
-                globals.g_progress[trdNum] = cnt/numberOfLinks
+                config.g_progress[trdNum] = cnt/numberOfLinks
     numberOfValidLinks_t[trdIndex] = _numberOfValidLinks
     validLinks_t[trdIndex] = _validLinks
     unvalidLinks_t[trdIndex] = _unvalidLinks
@@ -164,6 +164,6 @@ def saveImages(directory, links, startCount, size=None, grayScale=False):
         trdName = threading.current_thread().name
         trdNum = int(trdName[-3:])  # Gets last 3 characters from threadname
         if numberOfLinks == 0:
-            globals.g_progress[trdNum] = 1
+            config.g_progress[trdNum] = 1
         else:
-            globals.g_progress[trdNum] = progressCount / numberOfLinks
+            config.g_progress[trdNum] = progressCount / numberOfLinks
