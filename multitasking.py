@@ -81,11 +81,11 @@ def divideWorkload(workItems, numberOfCpu):
         numberOfCpu {int} -- The number of logical cores available for
         multithreading
     Returns:
-            [type] -- [description]
+            List of int -- A list with the number of tasks per thread
     """
-    tasksPerCpu = int(workItems / numberOfCpu)
+    tasksPerCpu = int(len(workItems) / numberOfCpu)
     workTasks = [tasksPerCpu] * numberOfCpu
-    for i in range(workItems % numberOfCpu):
+    for i in range(len(workItems) % numberOfCpu):
         workTasks[i] += 1
     return workTasks
 
