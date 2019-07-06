@@ -84,17 +84,17 @@ def divideWorkload(workItems, numberOfCpu):
             List of int -- A list with the number of tasks per thread
     """
     tasksPerCpu = int(len(workItems) / numberOfCpu)
-    workTasks = [tasksPerCpu] * numberOfCpu
+    workNumbers = [tasksPerCpu] * numberOfCpu
     for i in range(len(workItems) % numberOfCpu):
-        workTasks[i] += 1
-    return workTasks
+        workNumbers[i] += 1
+    return workNumbers
 
 
-def assignWorkTasks(workTasks, links, directory):
-    """Assign work tasks by instantianting WorkTask class.
+def assignWorkTasks(workNumbers, links, directory):
+    """Assign work tasks by instantianting WorkTask class for each thread.
 
     Arguments:
-        workTasks {List} -- List int with the number of tasks per thread
+        workNumbers {List} -- List int with the number of tasks per thread
         links {List} -- List of string with objects to be treated
         directory {string} -- The path where workobjects will be saved
     Returns:
@@ -109,7 +109,7 @@ def assignWorkTasks(workTasks, links, directory):
 
     i = 0
     initialCount = count
-    for items in workTasks:
+    for items in workNumbers:
         if items != 0:
             workList = links[count-initialCount:count-initialCount+items]
             w = WorkTask()

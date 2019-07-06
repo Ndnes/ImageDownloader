@@ -4,6 +4,8 @@ import unittest
 import multitasking
 import requests
 from multitasking import WorkTask
+import os
+
 
 urlLink = \
     'http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n01729977'
@@ -27,8 +29,17 @@ class TestMultitasking(unittest.TestCase):
         self.workTask_1.endCount = 6
         self.workTask_1.workList = self.urlList[:6]
 
+        self.directory = 'testingDir'
+        if not os.path.exists(self.directory):
+            os.makedirs(self.directory)
+        self.workNumbers = multitasking.divideWorkload(
+                                                self.workTask_1.workList,
+                                                3)
+
     def tearDown(self):
         pass
+        # os.remove(self.directory)
+        # TODO: Mock filesystem to create and delete test-files.
 
     def test_findNumberOfValidLinks(self):
         #  TODO: Refactor Do setup in a setUp method.
@@ -72,6 +83,16 @@ class TestMultitasking(unittest.TestCase):
         self.assertEqual(len(testList), sum(ret))
         for number in ret:
             self.assertLessEqual(number, len(testList) / cpuNumber + 1)
+
+    def test_assignWorkTasks(self):
+        ret = multitasking.assignWorkTasks(self.workNumbers,
+                                           self.workTask_1.workList,
+                                           self.directory)
+        self.assertEqual(len(ret), len(self.workNumbers))
+
+    def test_saveImages():
+        pass
+    # TODO: Finish this test.
 
 
 if __name__ == "__main__":
