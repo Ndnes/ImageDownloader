@@ -5,6 +5,7 @@ import multitasking
 import requests
 from multitasking import WorkTask
 import os
+from pyfakefs.fake_filesystem_unittest import Patcher
 
 
 urlLink = \
@@ -18,28 +19,47 @@ unvalidLinks_t = []
 class TestMultitasking(unittest.TestCase):
 
     def setUp(self):
+        # TODO: Curate a list of working lists in setup()
         r = requests.get(urlLink, timeout=1)
         urlString = r.content.decode()
 
-        self.urlList = str.splitlines(urlString)
+        numberOfValidLinks_t = [0]
+        validLinks_t = ['']
+        unvalidLinks_t = ['']
+        urlList = str.splitlines(urlString)
+
+        multitasking.findNumberOfValidLinks(
+                                        urlList[:15],
+                                        numberOfValidLinks_t,
+                                        validLinks_t,
+                                        unvalidLinks_t,
+                                        0)
+
+        self.patcher = Patcher()
+        self.patcher.setUp()
 
         self.workTask_1 = WorkTask()
         self.workTask_1.cpuNumber = 1
         self.workTask_1.startCount = 0
-        self.workTask_1.endCount = 6
-        self.workTask_1.workList = self.urlList[:6]
+        self.workTask_1.endCount = len(validLinks_t[0])
+        self.workTask_1.workList = validLinks_t[0]
 
         self.directory = 'testingDir'
-        if not os.path.exists(self.directory):
-            os.makedirs(self.directory)
+        self.patcher.fs.create_dir(self.directory)
+
         self.workNumbers = multitasking.divideWorkload(
                                                 self.workTask_1.workList,
                                                 3)
 
     def tearDown(self):
-        pass
-        # os.remove(self.directory)
+        self.patcher.tearDown()
         # TODO: Mock filesystem to create and delete test-files.
+
+    def test_create_file(self):
+        file_path = self.directory
+        self.assertTrue(os.path.exists(file_path))
+        # self.fs.create_file(file_path)
+        # self.assertTrue(os.path.exists(file_path))
 
     def test_findNumberOfValidLinks(self):
         #  TODO: Refactor Do setup in a setUp method.
@@ -90,7 +110,7 @@ class TestMultitasking(unittest.TestCase):
                                            self.directory)
         self.assertEqual(len(ret), len(self.workNumbers))
 
-    def test_saveImages():
+    def test_saveImages(self):
         pass
     # TODO: Finish this test.
 
