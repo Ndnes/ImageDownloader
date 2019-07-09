@@ -19,7 +19,6 @@ unvalidLinks_t = []
 class TestMultitasking(unittest.TestCase):
 
     def setUp(self):
-        # TODO: Curate a list of working lists in setup()
         r = requests.get(urlLink, timeout=1)
         urlString = r.content.decode()
 
@@ -112,7 +111,17 @@ class TestMultitasking(unittest.TestCase):
 
     def test_saveImages(self):
         pass
-    # TODO: Finish this test.
+        """
+        multitasking.saveImages(
+                            self.directory,
+                            self.workTask_1.workList,
+                            self.workTask_1.startCount)
+
+        path = pathlib.Path(f'{self.directory}/0.png')
+        img = cv2.imread(path, 0)
+        cv2.imshow('image', img)
+        cv2.waitKey(0)
+        """
 
 
 if __name__ == "__main__":

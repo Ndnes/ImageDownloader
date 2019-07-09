@@ -161,8 +161,13 @@ def saveImages(directory, links, startCount, size=None, grayScale=False):
             cv2.imwrite(imgPath, img)
             cnt += 1
         progressCount += 1
+
         trdName = threading.current_thread().name
-        trdNum = int(trdName[-3:])  # Gets last 3 characters from threadname
+        if trdName != 'MainThread':  # Needed to run function without mthread
+            trdNum = int(trdName[-3:])  # Get last 3 characters from threadname
+        else:
+            trdNum = 0
+
         if numberOfLinks == 0:
             config.g_progress[trdNum] = 1
         else:
