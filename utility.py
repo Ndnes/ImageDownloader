@@ -1,5 +1,23 @@
 """This module does various utility functions such as printing progress bar."""
 
+import config
+import time
+
+
+def getProgress(workDescription='Progress: '):
+    """Gets progress from threads. Uses global variable
+
+    Keyword Arguments:
+        workDescription {str} -- Describes the monitored work
+                                 (default: {'Progress: '})
+    """
+    progress = 0.0
+    while progress < 100.0:
+        progress = min(config.g_progress)
+        printProgress(progress, preText=workDescription)
+        time.sleep(0.25)
+    config.g_progress = [0.0] * len(config.g_progress)
+
 
 def printProgress(progress,
                   preText='Progress: ',

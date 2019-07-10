@@ -152,11 +152,11 @@ def saveImages(directory, links, startCount, size=None, grayScale=False):
         else:
             imgStr = r.content
             imgArr = np.fromstring(imgStr, np.uint8)
-            if grayScale:  # TODO: Refactor move grayscale to separate func
+            if grayScale:
                 img = cv2.imdecode(imgArr, cv2.IMREAD_GRAYSCALE)
             else:
                 img = cv2.imdecode(imgArr, cv2.IMREAD_COLOR)
-            if size:  # TODO: Refactor move resizing to separate func
+            if size:
                 img = cv2.resize(img, (size[0], size[1]))
             cv2.imwrite(imgPath, img)
             cnt += 1

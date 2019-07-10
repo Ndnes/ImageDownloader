@@ -12,7 +12,7 @@ class TestUtility(unittest.TestCase):
         unittest {module?} -- Module to run that will test other module.
     """
 
-    # TODO: Research this class and how it works.
+    # TODO: Write test for getProgress()
 
     def test_visualTests(self):
         """Tests printProgress() visually. (Verify in terminal)."""
